@@ -4,7 +4,8 @@ phases:
   install:
     commands:
       # Install dependencies needed for running tests
-      - apt-get install python-devel mysql-devel
+      - apt-get install yum
+      - yum install python-devel mysql-devel
       - pip install -r requirements.txt
 
   pre_build:
