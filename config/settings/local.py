@@ -26,6 +26,10 @@ def custom_show_toolbar(request):
     return True
 
 
+MIDDLEWARE_CLASSES += [
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
+]
+
 DEBUG_TOOLBAR_PANELS = [
     'debug_toolbar.panels.timer.TimerPanel',
     'debug_toolbar.panels.request.RequestPanel',
