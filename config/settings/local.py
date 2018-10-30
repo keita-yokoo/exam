@@ -14,8 +14,11 @@ DEBUG = env('DEBUG')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': env('DB_ENGINE'),
+        'NAME': env('DB_NAME'),
+        'HOST': env('DB_HOST'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD')
     }
 }
 
@@ -25,6 +28,10 @@ INTERNAL_IPS = ['127.0.0.1', 'localhost']
 def custom_show_toolbar(request):
     return True
 
+
+INSTALLED_APPS += (
+    'debug_toolbar',
+)
 
 MIDDLEWARE_CLASSES += [
     'debug_toolbar.middleware.DebugToolbarMiddleware'

@@ -7,15 +7,28 @@ keys = [
     "DEBUG",
 ]
 
+# 辞書構造の設置値リスト
+dict_keys = [
+    "DB_ENGINE",
+    "DB_NAME",
+    "DB_HOST",
+    "DB_USER",
+    "DB_PASSWORD"
+]
+
+# 検証環境か
+is_dev = os.environ.get("environment", "dev") == "dev"
+
 # 検証環境であれば検証環境の値を使用する
-if os.environ["environment"] == "dev":
+if is_dev:
     keys = ["DEV_" + key for key in keys]
+    dict_keys = ["DEV_" + dict_key for dict_key in dict_keys]
 
 
 # AWS System Manager パラメータストアから本番環境用設定値を取得する
 def get_params():
     response = boto3.client("ssm", region_name="ap-northeast-1").get_parameters(
-        Names=keys,
+        Names=keys+dict_keys,
         WithDecryption=True
     )
 
@@ -27,10 +40,19 @@ parameters = get_params()
 for key in keys:
     exec("{0}='{1}'".format(key, parameters[key]))
 
+
+# 検証環境であれば検証環境の値を使用する
+def convert_key(key, is_develop):
+    return "DEV_" + key if is_develop else key
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': parameters[convert_key("DB_ENGINE", is_dev)],
+        'NAME': parameters[convert_key("DB_NAME", is_dev)],
+        'HOST': parameters[convert_key("DB_HOST", is_dev)],
+        'USER': parameters[convert_key("DB_USER", is_dev)],
+        'PASSWORD': parameters[convert_key("DB_PASSWORD", is_dev)]
     }
 }
 
