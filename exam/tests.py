@@ -1,5 +1,5 @@
 from django.test import TestCase, RequestFactory
-from helloworld.views import HomePageView
+from exam.views import HomePageView
 
 class HelloWorldTestCase(TestCase):
 
