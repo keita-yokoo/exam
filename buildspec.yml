@@ -4,6 +4,7 @@ phases:
   install:
     commands:
       # Install dependencies needed for running tests
+      - pip install --upgrade pip
       - pip install -r requirements.txt
       - pip install lib/mysqlclient-1.3.13-cp36-cp36m-win_amd64.whl
 
