@@ -2,7 +2,7 @@
   "name": "exam",
   "version": "1.0.0",
   "description": "Welcome to the AWS CodeStar sample web application ==================================================",
-  "main": "index.js",
+  "main": "exam/static/js/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
